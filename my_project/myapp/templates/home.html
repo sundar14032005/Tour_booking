@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tour Booking</title>
+</head>
+<body>
+
+    <h1>Available Tours</h1>
+
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+        <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'reg' %}">Register</a>
+    {% endif %}
+
+    <hr>
+
+    {% for tour in tours %}
+
+        <div>
+            <h2>{{ tour.title }}</h2>
+
+            <p>{{ tour.description }}</p>
+
+            <p>
+                Price: ₹{{ tour.price }}
+            </p>
+
+            <p>
+                Available Seats: {{ tour.available_seats }}
+            </p>
+
+            {% if tour.available_seats > 0 %}
+                <a href="{% url 'book_tour' tour.id %}">
+                    Book This Tour
+                </a>
+            {% else %}
+                <p>No seats available</p>
+            {% endif %}
+        </div>
+
+        <hr>
+
+    {% empty %}
+
+        <p>No tours available.</p>
+
+    {% endfor %}
+
+</body>
+</html>
+
